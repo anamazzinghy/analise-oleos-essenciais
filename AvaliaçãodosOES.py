@@ -1,41 +1,41 @@
->>> import streamlit as st
-... import pandas as pd
-... import numpy as np
-... from sklearn.decomposition import PCA
-... from sklearn.metrics.pairwise import cosine_similarity
-... import matplotlib.pyplot as plt
-... import logging
-... 
-... # Configuração de logging para depuração
-... logging.basicConfig(level=logging.DEBUG)
-... 
-... # Função para carregar espectros GC-MS
-... def carregar_espectros(caminho):
-...     """
-...     Carrega os dados espectrais de óleos essenciais de um arquivo CSV.
-... 
-...     Parâmetros:
-...     caminho (str): Caminho para o arquivo CSV.
-... 
-...     Retorno:
-...     pd.DataFrame: Dados espectrais carregados.
-...     """
-...     try:
-...         return pd.read_csv(caminho)
-...     except Exception as e:
-...         st.error(f"Erro ao carregar os dados do arquivo {caminho}: {e}")
-...         logging.error(f"Erro ao carregar arquivo {caminho}: {e}")
-...         return None
-... 
-... # Função para pré-processar os dados
-... def preprocessar_espectros(dados):
-...     """
-...     Normaliza os dados espectrais para análise comparativa.
-... 
-...     Parâmetros:
-...     dados (pd.DataFrame): Dados espectrais originais.
-... 
-...     Retorno:
+import streamlit as st
+import pandas as pd
+import numpy as np
+from sklearn.decomposition import PCA
+from sklearn.metrics.pairwise import cosine_similarity
+import matplotlib.pyplot as plt
+import logging
+
+# Configuração de logging para depuração
+logging.basicConfig(level=logging.DEBUG)
+
+# Função para carregar espectros GC-MS
+def carregar_espectros(caminho):
+    """
+    Carrega os dados espectrais de óleos essenciais de um arquivo CSV.
+
+    Parâmetros:
+    caminho (str): Caminho para o arquivo CSV.
+
+    Retorno:
+    pd.DataFrame: Dados espectrais carregados.
+    """
+    try:
+        return pd.read_csv(caminho)
+    except Exception as e:
+        st.error(f"Erro ao carregar os dados do arquivo {caminho}: {e}")
+        logging.error(f"Erro ao carregar arquivo {caminho}: {e}")
+        return None
+
+# Função para pré-processar os dados
+def preprocessar_espectros(dados):
+    """
+    Normaliza os dados espectrais para análise comparativa.
+
+    Parâmetros:
+    dados (pd.DataFrame): Dados espectrais originais.
+
+    Retorno:
     pd.DataFrame: Dados normalizados.
     """
     try:
@@ -192,6 +192,12 @@ def pipeline(caminho_teste, caminho_referencia, caminho_adulterantes):
 
 # Exemplo de execução no Streamlit
 st.title("Avaliação de Óleos Essenciais")
+caminho_teste = st.text_input("Caminho para o arquivo CSV de amostras de teste:")
+caminho_referencia = st.text_input("Caminho para o arquivo CSV do banco de referência:")
+caminho_adulterantes = st.text_input("Caminho para o arquivo CSV do banco de adulterantes:")
+if st.button("Executar Pipeline"):
+    pipeline(caminho_teste, caminho_referencia, caminho_adulterantes)
+
 caminho_teste = st.text_input("Caminho para o arquivo CSV de amostras de teste:")
 caminho_referencia = st.text_input("Caminho para o arquivo CSV do banco de referência:")
 caminho_adulterantes = st.text_input("Caminho para o arquivo CSV do banco de adulterantes:")
